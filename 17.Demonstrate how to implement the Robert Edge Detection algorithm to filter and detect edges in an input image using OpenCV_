@@ -1,0 +1,29 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read the image in grayscale
+image = cv2.imread(r'C:\Users\Madhavan Dodda\OneDrive\Documents\Pictures\ganesha-hindu-god-goddess-wallpaper-preview.jpg', cv2.IMREAD_GRAYSCALE)
+
+# Check if the image is loaded correctly
+if image is None:
+    print("Error: Could not open or find the image.")
+else:
+    # Define Robert's cross operator kernels
+    roberts_cross_x = np.array([[1, 0], [0, -1]], dtype=np.float32)
+    roberts_cross_y = np.array([[0, 1], [-1, 0]], dtype=np.float32)
+
+    # Apply the Robert's cross operator using filter2D
+    roberts_x = cv2.filter2D(image, -1, roberts_cross_x)
+    roberts_y = cv2.filter2D(image, -1, roberts_cross_y)
+
+    # Compute the gradient magnitude (edge intensity)
+    roberts_combined = np.sqrt(roberts_x ** 2 + roberts_y ** 2)
+
+    # Normalize the result to display properly
+    roberts_combined = np.uint8(255 * roberts_combined / np.max(roberts_combined))
+
+    # Display the results
+    plt.imshow(roberts_combined, cmap='gray')
+    plt.title('Robert Edge Detection')
+    plt.show()

@@ -1,0 +1,22 @@
+import cv2
+
+# Correct image path, use raw string to avoid escape sequence issues
+image = cv2.imread(r"C:\Users\Madhavan Dodda\Downloads\cv_capstone.webp")
+
+# Check if the image was loaded successfully
+if image is None:
+    print("Error: Image not found or could not be loaded.")
+else:
+    # Convert the image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Apply binary thresholding
+    _, thresh = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY)
+
+    # Find contours
+    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Loop through each contour and print the points
+    for contour in contours:
+        for point in contour:
+            print(f"Contour Point: {point[0]}")

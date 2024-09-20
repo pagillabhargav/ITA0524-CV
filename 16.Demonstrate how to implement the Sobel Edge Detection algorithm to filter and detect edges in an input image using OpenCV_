@@ -1,0 +1,24 @@
+import cv2
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Read image (using raw string for the file path or escaping the backslashes)
+image = cv2.imread(r'C:\Users\Madhavan Dodda\OneDrive\Documents\Pictures\ganesha-hindu-god-goddess-wallpaper-preview.jpg', cv2.IMREAD_GRAYSCALE)
+
+# Check if the image is loaded correctly
+if image is None:
+    print("Error: Could not open or find the image.")
+else:
+    # Apply Sobel operator in X direction
+    sobel_x = cv2.Sobel(image, cv2.CV_64F, 1, 0, ksize=3)
+
+    # Apply Sobel operator in Y direction
+    sobel_y = cv2.Sobel(image, cv2.CV_64F, 0, 1, ksize=3)
+
+    # Compute magnitude of gradient
+    sobel_combined = cv2.magnitude(sobel_x, sobel_y)
+
+    # Display the result
+    plt.imshow(sobel_combined, cmap='gray')
+    plt.title('Sobel Edge Detection')
+    plt.show()
